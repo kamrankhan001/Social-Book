@@ -1,35 +1,5 @@
-<script setup>
-    import Modal from '@/Components/Modal.vue';
-
-    import {
-        ref
-    } from 'vue';
-
-    const videoFile = ref(null);
-    const video = ref(null);
-    const videoType = ref(null);
-    const isModelOpen = ref(false);
-
-    const handleVideo = (el) => {
-        const vid = el.target.files[0];
-        if (vid && vid.type.startsWith('video/')) {
-            video.value = URL.createObjectURL(vid)
-            videoType.value = `video/${vid.type}`;
-            modelOpen();
-        }
-    }
-
-    const modelOpen = () => {
-        isModelOpen.value = true;
-    }
-    const modelClose = () => {
-        isModelOpen.value = false;
-    }
-</script>
 <template>
-    <div class="cursor-pointer">
-        <input type="file" name="viedos" id="viedos" accept="video/*" multiple class="hidden" ref="videoFile" @change="handleVideo">
-        <svg @click="videoFile.click()" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" viewBox="0 0 512 512"
             enable-background="new 0 0 512 512" xml:space="preserve">
             <path fill="none" opacity="1.000000" stroke="none" d="
@@ -175,16 +145,4 @@
                 C197.469910,169.976807 209.378845,176.590195 221.612762,183.374802
                 z" />
         </svg>
-        <Modal :show="isModelOpen" @close="modelClose">
-            <div class="p-6 bg-white rounded">
-                <h2 class="text-lg font-medium text-gray-900 mb-4">
-                    Video Preview
-                </h2>
-                <div v-if="video">
-                    <video :src="video" controls></video>
-                </div>
-                <button class="mt-4 border border-gray-100 px-3 py-1 rounded hover:bg-gray-200" @click="modelClose">Close</button>
-            </div>
-        </Modal>
-    </div>
 </template>

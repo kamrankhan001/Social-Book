@@ -1,6 +1,4 @@
 <script setup>
-    import Like from '../icons/Like.vue';
-    import Comment from '../icons/Comment.vue';
     import {
         ref
     } from 'vue';
@@ -46,10 +44,10 @@
 </script>
 
 <template>
-    <div class="">
+    <div>
         <article class="bg-gray-200 p-5 mt-10 mb-3 rounded" v-for="post in posts" :key="post.id">
             <p v-if="post" class="my-4">
-                {{ post . post }}
+                {{ post.post }}
             </p>
             <div v-if="post.attachments.length > 0">
                 <div v-if="post.attachments.length > 0">
@@ -65,10 +63,10 @@
             </div>
                 <div class="grid grid-cols-2 mt-2 py-3 rounded gap-1">
                     <div class="text-center bg-white py-2">
-                        Likes ({{ post . reactions }})
+                        Likes ({{ post.reactions }})
                     </div>
                     <div class="text-center bg-white py-2">
-                        Comment ({{ post . comments }})
+                        Comment ({{ post.comments }})
                     </div>
                 </div>
         </article>
