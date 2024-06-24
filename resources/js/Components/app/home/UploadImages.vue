@@ -6,7 +6,6 @@
     import {
         ref
     } from 'vue';
-
     const imageFiles = ref([]);
     const images = ref([]);
     const isModelOpen = ref(false);
