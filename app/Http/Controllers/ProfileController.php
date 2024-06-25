@@ -9,7 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-=use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
 
@@ -20,14 +21,39 @@ class ProfileController extends Controller
         return Inertia::render('Profile/View', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
-            'user' => new UserResource(),
+            'user' => new UserResource($user),
         ]);
     }
 
     public function coverUpdate(Request $request, User $user)
     {
+        $request->validate(
+            [
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ],
+            [
+                'cover.image' => 'The file must be an image.',
+                'cover.mimes' => 'The cover image must be a file of type: jpeg, png, jpg, gif, svg.',
+                'cover.max' => 'The cover image must not be greater than 2MB.',
+            ],
+        );
 
-        dd($request);
+        if ($request->hasFile('cover')) {
+            // Delete the old cover image if exists
+            if ($user->cover_image) {
+                Storage::delete($user->cover_image);
+            }
+
+            // Store the new cover image
+            $path = $request->file('cover')->store('covers', 'public');
+
+            // Update user with new cover image path
+            $user->update([
+                'cover_image' => $path,
+            ]);
+        }
+
+        return to_route('profile', ['user'=>$user])->with('success', 'Cover image updated successfully.');
     }
     /**
      * Display the user's profile form.

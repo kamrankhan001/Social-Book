@@ -113,7 +113,7 @@ const modelClose = () => {
                     </h2>
                 </header>
                 <div class="max-h-[500px] overflow-auto">
-                    <cropper class="" :src="changeProfileImage" :stencil-component="CircleStencil" ref="copper" />
+                    <Cropper :src="changeProfileImage" :stencil-component="CircleStencil" ref="copper" />
                 </div>
                 <footer class="flex justify-between items-center mt-4">
                     <button

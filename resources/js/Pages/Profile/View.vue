@@ -7,9 +7,7 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import { usePage } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 
-import { ref } from "vue";
-
-defineProps({
+const props = defineProps({
     user: Object,
     mustVerifyEmail: {
         type: Boolean,
@@ -27,10 +25,9 @@ const user = usePage().props.auth.user;
     <AuthenticatedLayout>
         <div class="pb-12 pt-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                <UpdateCoverImage />
+                <UpdateCoverImage :user="props.user" />
 
                 <UpdateProfileImage :name="user.name" :email="user.email" />
-
                 
 
                 <TabGroup>
@@ -108,11 +105,3 @@ const user = usePage().props.auth.user;
         </div>
     </AuthenticatedLayout>
 </template>
-
-<style scoped>
-.cropper {
-    height: 288px;
-    width: 10000px;
-    background: #ddd;
-}
-</style>
