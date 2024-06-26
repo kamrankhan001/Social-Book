@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'cover_image' => $this->cover_image ? Storage::url($this->cover_image) : null,
-            'avatar_image' => $this->avater_image ? Storage::url($this->avater_image) : null,
+            'avater_image' => $this->avater_image ? Storage::url($this->avater_image) : null,
         ];
     }
 }

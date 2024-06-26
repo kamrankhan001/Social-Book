@@ -53,7 +53,7 @@
 </script>
 
 <template>
-    <details class="order-1 col-span-12 md:col-span-3 max-h-[350px] rounded md:max-h-[30%] overflow-auto" open>
+    <details class="order-1 col-span-12 md:col-span-3 max-h-[350px] rounded md:max-h-[80%] overflow-auto" open>
         <summary class="text-xl text-center text-white font-semibold py-2 bg-slate-800">
             Groups
         </summary>

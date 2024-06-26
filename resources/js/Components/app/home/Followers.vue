@@ -37,7 +37,7 @@
 </script>
 
 <template>
-    <details class="col-span-12 order-2 md:order-3 max-h-[350px] md:col-span-3 py-5 rounded md:max-h-[30%] overflow-auto" open>
+    <details class="col-span-12 order-2 md:order-3 max-h-[350px] md:col-span-3 py-5 rounded md:max-h-[80%] overflow-auto" open>
         <summary class="text-xl text-center text-white font-semibold py-2 bg-slate-800">
             Followers
         </summary>

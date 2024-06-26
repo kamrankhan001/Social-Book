@@ -9,6 +9,10 @@
     import {
         Head
     } from '@inertiajs/vue3';
+
+    defineProps({
+        posts: Object,
+    })
 </script>
 
 <template>
@@ -20,9 +24,9 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="grid grid-cols-12 gap-5">
                     <Groups/>
-                    <main class="order-3 md:order-2 col-span-12 md:col-span-6 overflow-auto md:max-h-[30%]">
+                    <main class="order-3 md:order-2 col-span-12 md:col-span-6 overflow-auto max-h-[80vh]">
                        <PostPanel/>
-                       <Posts/>
+                       <Posts :posts="posts.data"/>
                     </main>
                     <Followers/>
                 </div>
