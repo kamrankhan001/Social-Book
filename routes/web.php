@@ -16,6 +16,7 @@ Route::get('/u/{user:username}', [ProfileController::class, 'index'])->name('pro
 
 Route::middleware('auth')->group(function () {
     Route::post('/profile/cover-update/{user}', [ProfileController::class, 'coverUpdate'])->name('profile.coverUpdate');
+    Route::post('/profile/avater-update/{user}', [ProfileController::class, 'avaterUpdate'])->name('profile.avaterUpdate');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

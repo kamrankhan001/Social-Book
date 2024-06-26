@@ -55,6 +55,38 @@ class ProfileController extends Controller
 
         return to_route('profile', ['user'=>$user])->with('success', 'Cover image updated successfully.');
     }
+    
+    public function avaterUpdate(Request $request, User $user)
+    {
+        $request->validate(
+            [
+                'avater' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ],
+            [
+                'avater.image' => 'The file must be an image.',
+                'avater.mimes' => 'The avater image must be a file of type: jpeg, png, jpg, gif, svg.',
+                'avater.max' => 'The avater image must not be greater than 2MB.',
+            ],
+        );
+
+        if ($request->hasFile('avater')) {
+            // Delete the old avater if exists
+            if ($user->avater_image) {
+                Storage::delete($user->avater_image);
+            }
+
+            // Store the avater image
+            $path = $request->file('avater')->store('avaters', 'public');
+
+            // Update user with avater path
+            $user->update([
+                'avater_image' => $path,
+            ]);
+        }
+
+        return to_route('profile', ['user'=>$user])->with('success', 'Avater updated successfully.');
+    }
+
     /**
      * Display the user's profile form.
      */

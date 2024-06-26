@@ -13,7 +13,7 @@ import {
     XCircleIcon,
 } from "@heroicons/vue/24/outline";
 
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -25,9 +25,10 @@ const coverImageForm = useForm({
 });
 
 const coverImage = ref(null);
-const isModelOpen = ref(false);
 const changeCoverImage = ref(null);
 const cropper = ref(null);
+const processing = ref(false);
+const isModelOpen = ref(false);
 
 const coverHandle = (event) => {
     const file = event.target.files[0];
@@ -42,14 +43,20 @@ const coverHandle = (event) => {
 const crop = async () => {
     const { canvas } = cropper.value.getResult();
     if (canvas) {
+        processing.value = true;
         await new Promise((resolve) => {
             canvas.toBlob((blob) => {
-                const file = new File([blob], "cropped-image.png", { type: blob.type, lastModified: Date.now() });
+                const file = new File([blob], "cropped-image.png", {
+                    type: blob.type,
+                    lastModified: Date.now(),
+                });
                 coverImageForm.cover = file;
                 isModelOpen.value = false;
                 resolve();
             });
         });
+        changeCoverImage.value = canvas.toDataURL();
+        processing.value = false;
     }
 };
 
@@ -79,7 +86,6 @@ const saveCoverImage = async () => {
 const modelClose = () => {
     isModelOpen.value = false;
 };
-
 </script>
 
 <template>
@@ -87,8 +93,9 @@ const modelClose = () => {
         <div class="h-72 w-full relative group">
             <img
                 :src="
-                    changeCoverImage || user.cover_image ||
-                    'https://plus.unsplash.com/premium_photo-1661972249683-790fcb064838?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                    changeCoverImage ||
+                    user.cover_image ||
+                    '/assets/imgs/cover.jpg'
                 "
                 alt="cover image"
                 class="object-cover w-full h-full rounded"
@@ -128,9 +135,9 @@ const modelClose = () => {
         </div>
         <Modal :show="isModelOpen" @close="modelClose" :closeable="false">
             <div class="p-6 bg-white rounded relative">
-                <div class="absolute top-4 right-4">
-                    <Cross class="w-8 h-8 cursor-pointer" @click="modelClose" />
-                </div>
+                <button class="absolute top-4 right-4" v-if="!processing">
+                    <Cross class="w-8 h-8 cursor-pointer" @click="cancelCoverImage" />
+                </button>
                 <header>
                     <h2 class="text-lg font-medium text-gray-900 mb-4">
                         Crop Image
@@ -144,6 +151,7 @@ const modelClose = () => {
                         type="button"
                         class="text-white border border-red-200 bg-red-600 px-3 py-1 rounded"
                         @click="cancelCoverImage"
+                        :disabled="processing"
                     >
                         Cancel
                     </button>
@@ -151,8 +159,9 @@ const modelClose = () => {
                         type="submit"
                         @click="crop"
                         class="bg-gray-50 px-5 py-1 rounded hover:bg-gray-200"
+                        :disabled="processing"
                     >
-                        Crop
+                        {{ processing ? "processing" : "Crop" }}
                     </button>
                 </footer>
             </div>

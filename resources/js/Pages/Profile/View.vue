@@ -2,6 +2,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import UpdateCoverImage from "./Partials/UpdateCoverImage.vue";
 import UpdateProfileImage from "./Partials/UpdateProfileImage.vue";
+import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm.vue";
+import UpdatePasswordForm from "./Partials/UpdatePasswordForm.vue";
+import DeleteUserForm from "./Partials/DeleteUserForm.vue";
+
 
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import { usePage } from "@inertiajs/vue3";
@@ -27,11 +31,11 @@ const user = usePage().props.auth.user;
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <UpdateCoverImage :user="props.user" />
 
-                <UpdateProfileImage :name="user.name" :email="user.email" />
+                <UpdateProfileImage :user="props.user" />
                 
 
                 <TabGroup>
-                    <TabList class="flex space-x-1">
+                    <TabList class="flex space-x-1 bg-white p-2 rounded mb-2">
                         <Tab as="template" v-slot="{ selected }">
                             <button
                                 class="text-xl mr-3 focus:outline-none pr-1 md:pr-3"
@@ -93,8 +97,12 @@ const user = usePage().props.auth.user;
                             </button>
                         </Tab>
                     </TabList>
-                    <TabPanels>
-                        <TabPanel>Content 1</TabPanel>
+                    <TabPanels class="">
+                        <TabPanel>
+                            <UpdateProfileInformationForm class="bg-white p-2 rounded mb-2"/>
+                            <UpdatePasswordForm class="bg-white p-2 rounded mb-2"/>
+                            <DeleteUserForm class="bg-white p-2 rounded mb-2"/>
+                        </TabPanel>
                         <TabPanel>Content 2</TabPanel>
                         <TabPanel>Content 3</TabPanel>
                         <TabPanel>Content 4</TabPanel>
